@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Модели</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/three@0.146.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/three@0.146.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.querySelector('.search-button');
+            const searchInput = document.querySelector('.search-input');
+    
+            searchButton.addEventListener('click', () => {
+                const query = searchInput.value;
+                window.location.href = `/search?query=${encodeURIComponent(query)}`;
+            });
+    
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = searchInput.value;
+                    window.location.href = `/search?query=${encodeURIComponent(query)}`;
+                }
+            });
+        });
+    </script>
+    <style>
+        .tiled-background {
+            background-image: url('http://127.0.0.1:5000/static/background/1.png');
+            background-size: calc(100vw / 10) calc(100vw / 10); /* 10 плиток по ширине */
+            background-repeat: repeat;
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(135deg, #01c3f3, #7c3aed, #1e3a8a);
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+<body class="tiled-background">
+    <header class="animated-gradient text-white py-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">3D Модели</h1>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Главная
+                </a>
+                <a href="/about" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    О проекте
+                </a>
+                <a href="/contact" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Связь с создателем
+                </a>
+                <a href="/gallery" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                    Галерея
+                </a>
+                <a href="/stats" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Статистика
+                </a>
+                <a href="/docs" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                    Документация
+                </a>
+                <div class="flex justify-center w-full mt-2">
+                    <input type="text" placeholder="Поиск..." class="search-input px-4 py-2 border rounded-lg w-64">
+                    <button class="search-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                        Найти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for model in models %}
+            <div class="model-card bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer" data-model-id="{{ model.id }}" data-model-path="{{ url_for('static', filename='models/' + model.model_file) }}">
+                <div id="preview-{{ model.id }}" class="model-preview w-full h-64 bg-gray-200 rounded-t-lg"></div>
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold text-gray-800">{{ model.title }}</h2>
+                    <p class="text-gray-600 mt-2">{{ model.description[:100] }}...</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
