@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body class="tiled-background">
+    <header class="animated-gradient text-white py-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">3D Модели</h1>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Главная
+                </a>
+                <a href="/about" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    О проекте
+                </a>
+                <a href="/contact" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Связь с создателем
+                </a>
+                <a href="/gallery" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                    Галерея
+                </a>
+                <a href="/stats" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Статистика
+                </a>
+                <a href="/docs" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                    Документация
+                </a>
+                <div class="flex justify-center w-full mt-2">
+                    <input type="text" placeholder="Поиск..." class="px-4 py-2 border rounded-lg w-64">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                        Найти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Документация</h2>
+            <p class="text-gray-600 mt-4">
+                Здесь вы найдете документацию по использованию сайта и 3D-моделей.
+            </p>
+        </div>
+    </main>
+</body>
+</html>

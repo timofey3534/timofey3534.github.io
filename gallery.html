@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categorySelect = document.getElementById('category');
+            const galleryGrid = document.getElementById('gallery-grid');
+    
+            categorySelect.addEventListener('change', () => {
+                const selectedCategory = categorySelect.value;
+                const modelCards = galleryGrid.querySelectorAll('.model-card');
+    
+                modelCards.forEach(card => {
+                    const category = card.dataset.category;
+                    if (selectedCategory === 'all' || category === selectedCategory) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body class="tiled-background">
+    <header class="animated-gradient text-white py-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">3D Модели</h1>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Главная
+                </a>
+                <a href="/about" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    О проекте
+                </a>
+                <a href="/contact" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Связь с создателем
+                </a>
+                <a href="/gallery" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                    Галерея
+                </a>
+                <a href="/stats" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Статистика
+                </a>
+                <a href="/docs" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                    Документация
+                </a>
+                <div class="flex justify-center w-full mt-2">
+                    <input type="text" placeholder="Поиск..." class="px-4 py-2 border rounded-lg w-64">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                        Найти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Галерея</h2>
+            <p class="text-gray-600 mt-4">
+                Здесь вы можете увидеть все доступные 3D-модели.
+            </p>
+            <div class="mt-4">
+                <label for="category" class="block text-gray-700">Фильтр по категории:</label>
+                <select id="category" class="px-4 py-2 border rounded-lg w-64">
+                    <option value="all">Все</option>
+                    <option value="gear">Зубчатые передачи</option>
+                    <option value="belt">Ременные передачи</option>
+                    <option value="rack">Реечные приводы</option>
+                    <!-- Добавьте другие категории -->
+                </select>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6" id="gallery-grid">
+                {% for model in models %}
+                <div class="model-card bg-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer" data-model-id="{{ model.id }}" data-category="{{ model.category }}">
+                    <div id="preview-{{ model.id }}" class="model-preview w-full h-64 bg-gray-200 rounded-t-lg"></div>
+                    <div class="p-4">
+                        <h2 class="text-xl font-semibold text-gray-800">{{ model.title }}</h2>
+                        <p class="text-gray-600 mt-2">{{ model.description[:100] }}...</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>
